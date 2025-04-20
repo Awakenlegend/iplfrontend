@@ -12,6 +12,10 @@ body {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     color: #fff;
     min-height: 100vh;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
 }
 
 /* Base styles */
@@ -22,6 +26,7 @@ body {
     --text-color: #ffffff;
     --mobile-padding: 12px;
     --tablet-padding: 16px;
+    --android-safe-area: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 /* Responsive container */
@@ -151,14 +156,13 @@ body {
 }
 
 .chart-container {
-  background: rgba(15, 23, 42, 0.7);
-  padding: 2rem;
-  border-radius: 1rem;
-  height: 500px;
-  margin-bottom: 1rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(56, 189, 248, 0.15);
-  backdrop-filter: blur(5px);
+    background: #0B1222;
+    border-radius: 15px;
+    padding: 2rem;
+    height: calc(100% - 4rem);
+    border: 1px solid rgba(56, 189, 248, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
 .chart-legend {
@@ -188,6 +192,7 @@ body {
     gap: 20px;
     padding: 20px;
     justify-content: center;
+    -webkit-overflow-scrolling: touch;
 }
 
 .team-card {
@@ -201,6 +206,8 @@ body {
     align-items: center;
     padding: 15px;
     max-width: 100%;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .team-card:hover {
@@ -215,6 +222,8 @@ body {
     height: auto;
     border-radius: 8px;
     margin-bottom: 10px;
+    -webkit-user-drag: none;
+    user-select: none;
 }
 
 .team-card h3 {
@@ -225,8 +234,8 @@ body {
 }
 
 .vote-btn {
-    padding: clamp(8px, 2vw, 12px) clamp(16px, 4vw, 24px);
-    font-size: clamp(14px, 3vw, 16px);
+    padding: 12px 24px;
+    font-size: 1rem;
     border-radius: 5px;
     border: none;
     cursor: pointer;
@@ -236,6 +245,9 @@ body {
     transition: all 0.3s ease;
     width: 100%;
     max-width: 150px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 44px; /* Minimum touch target size for Android */
 }
 
 .vote-btn:hover {
@@ -308,14 +320,6 @@ body {
     flex: 1;
     overflow-y: auto;
     background: #0B1222;
-}
-
-.chart-container {
-    background: #0B1222;
-    border-radius: 15px;
-    padding: 2rem;
-    height: calc(100% - 4rem);
-    border: 1px solid rgba(56, 189, 248, 0.1);
 }
 
 .stats-header {
@@ -413,6 +417,7 @@ body {
 .footer-content {
     max-width: 500px;
     margin: 0 auto;
+    padding: 0 1rem;
 }
 
 .footer-logo {
@@ -431,6 +436,8 @@ body {
     border: 3px solid #38bdf8;
     box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
     transition: all 0.4s ease;
+    background: white;
+    padding: 5px;
 }
 
 .mf-logo:hover {
@@ -556,38 +563,25 @@ body {
 
 /* Media Queries */
 @media screen and (max-width: 768px) {
-    .container {
-        padding: 0 var(--tablet-padding);
+    body {
+        padding: 10px 0;
+        padding: var(--android-safe-area);
     }
 
     .teams-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 16px;
         padding: var(--tablet-padding);
     }
 
     .team-card {
         padding: 12px;
-        gap: 8px;
+        width: 100%;
     }
 
-    .team-card img {
-        max-width: 110px;
-        margin-bottom: 8px;
-    }
-
-    .team-card h3 {
-        font-size: 1rem;
-        margin: 6px 0;
-    }
-
-    .vote-btn {
-        padding: 10px 16px;
-        font-size: 0.9rem;
-        min-height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .tagline {
+        font-size: 1.1rem;
+        margin: 1.2rem 0;
     }
 
     .hero {
@@ -620,41 +614,82 @@ body {
         font-size: 1rem;
         margin-bottom: 1.2rem;
     }
+
+    .chart-container {
+        padding: 1.5rem;
+        height: 400px;
+    }
+
+    .footer {
+        margin-top: 4rem;
+        padding: 3rem 0;
+    }
+
+    .footer-content {
+        padding: 0 1.5rem;
+    }
+
+    .footer-logo {
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .mf-logo {
+        width: 70px;
+        height: 70px;
+        border: 2px solid #38bdf8;
+    }
+
+    .footer-logo span {
+        font-size: 1.8rem;
+    }
+
+    .vote-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-height: 44px;
+    }
 }
 
 @media screen and (max-width: 480px) {
-    .container {
-        padding: 0 var(--mobile-padding);
+    body {
+        padding: 10px 0;
+        padding: var(--android-safe-area);
     }
 
     .teams-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-template-columns: 1fr;
         gap: 12px;
         padding: var(--mobile-padding);
     }
 
     .team-card {
-        padding: 8px;
-        gap: 6px;
+        padding: 10px;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .tagline {
+        font-size: 0.9rem;
+        margin: 1rem 0;
+        padding: 0 1rem;
     }
 
     .team-card img {
-        max-width: 90px;
-        margin-bottom: 6px;
+        max-width: 90%;
+        height: auto;
     }
 
     .team-card h3 {
-        font-size: 0.85rem;
-        margin: 4px 0;
-        line-height: 1.2;
+        font-size: 0.9rem;
+        margin: 0.5rem 0;
+        -webkit-text-size-adjust: 100%;
     }
 
     .vote-btn {
-        padding: 8px 12px;
-        font-size: 0.8rem;
-        min-height: 32px;
-        width: 100%;
-        max-width: 100px;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+        min-height: 44px;
     }
 
     .hero {
@@ -713,27 +748,86 @@ body {
     }
 
     .chart-container {
-        padding: 0.8rem;
-        height: 280px;
+        padding: 1rem;
+        height: 350px;
+        margin: 0.5rem;
     }
 
     .footer {
-        margin-top: 2rem;
-        padding: 1.5rem 0;
+        margin-top: 3rem;
+        padding: 2rem 0;
     }
 
-    .footer-logo span {
-        font-size: 1.3rem;
+    .footer-content {
+        padding: 0 1rem;
+    }
+
+    .footer-logo {
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-direction: column;
+        align-items: center;
     }
 
     .mf-logo {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
+        border: 2px solid #38bdf8;
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+        background: white;
+        padding: 4px;
     }
 
-    .tagline {
+    .footer-logo span {
+        font-size: 1.6rem;
+        text-align: center;
+        margin-top: 0.5rem;
+    }
+
+    .copyright {
+        font-size: 0.8rem;
+        margin-top: 1rem;
+    }
+
+    .stats-modal {
+        margin: 1rem;
+        height: auto;
+        min-height: calc(100vh - 2rem);
+    }
+
+    .stats-modal-content {
+        padding: 1rem;
+    }
+
+    .stats-modal-header {
+        padding: 1rem;
+    }
+
+    .stats-modal-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .close-btn {
+        padding: 0.5rem 1rem;
         font-size: 0.9rem;
-        line-height: 1.4;
+    }
+
+    /* Android-specific optimizations */
+    @supports (-webkit-touch-callout: none) {
+        .vote-btn {
+            padding: 12px 20px;
+            font-size: 1rem;
+        }
+
+        .team-card {
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+
+        .teams-grid {
+            -webkit-overflow-scrolling: touch;
+            overflow-scrolling: touch;
+        }
     }
 }
 
