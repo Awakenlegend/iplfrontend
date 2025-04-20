@@ -304,7 +304,8 @@ document.addEventListener("DOMContentLoaded", () => {
                             bottomLeft: 0,
                             bottomRight: 0
                         },
-                        maxBarThickness: window.innerWidth <= 480 ? 25 : 35
+                        maxBarThickness: window.innerWidth <= 480 ? 30 : 35,
+                        minBarLength: 5
                     }]
                 },
                 options: {
@@ -312,17 +313,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     maintainAspectRatio: false,
                     layout: {
                         padding: {
-                            top: window.innerWidth <= 480 ? 20 : 30,
-                            right: window.innerWidth <= 480 ? 10 : 20,
-                            bottom: window.innerWidth <= 480 ? 10 : 20,
-                            left: window.innerWidth <= 480 ? 10 : 20
+                            top: window.innerWidth <= 480 ? 30 : 30,
+                            right: window.innerWidth <= 480 ? 20 : 20,
+                            bottom: window.innerWidth <= 480 ? 60 : 20,
+                            left: window.innerWidth <= 480 ? 20 : 20
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
                             grid: {
-                                color: 'rgba(255, 255, 255, 0.05)',
+                                color: 'rgba(255, 255, 255, 0.1)',
                                 drawBorder: false
                             },
                             ticks: {
@@ -330,10 +331,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                 color: '#94a3b8',
                                 font: {
                                     family: 'system-ui',
-                                    size: window.innerWidth <= 480 ? 10 : 12,
-                                    weight: '500'
+                                    size: window.innerWidth <= 480 ? 12 : 12,
+                                    weight: '600'
                                 },
-                                padding: window.innerWidth <= 480 ? 5 : 10
+                                padding: window.innerWidth <= 480 ? 10 : 10
                             },
                             border: {
                                 display: false
@@ -345,34 +346,31 @@ document.addEventListener("DOMContentLoaded", () => {
                                 drawBorder: false
                             },
                             ticks: {
-                                color: '#94a3b8',
+                                color: '#FFD700',
                                 font: {
                                     family: 'system-ui',
-                                    size: window.innerWidth <= 480 ? 9 : 12,
-                                    weight: '500'
+                                    size: window.innerWidth <= 480 ? 12 : 12,
+                                    weight: '600'
                                 },
-                                maxRotation: window.innerWidth <= 480 ? 45 : 45,
-                                minRotation: window.innerWidth <= 480 ? 45 : 45,
-                                padding: window.innerWidth <= 480 ? 5 : 10,
+                                maxRotation: 0,
+                                minRotation: 0,
+                                padding: window.innerWidth <= 480 ? 10 : 10,
                                 autoSkip: false,
                                 callback: function(value) {
-                                    if (window.innerWidth <= 480) {
-                                        // Shorten team names on mobile
-                                        const shortNames = {
-                                            'Chennai Super Kings': 'CSK',
-                                            'Mumbai Indians': 'MI',
-                                            'Royal Challengers Bangalore': 'RCB',
-                                            'Kolkata Knight Riders': 'KKR',
-                                            'Delhi Capitals': 'DC',
-                                            'Punjab Kings': 'PBKS',
-                                            'Rajasthan Royals': 'RR',
-                                            'Sunrisers Hyderabad': 'SRH',
-                                            'Gujarat Titans': 'GT',
-                                            'Lucknow Super Giants': 'LSG'
-                                        };
-                                        return shortNames[value] || value;
-                                    }
-                                    return value;
+                                    // Always use short names for better readability
+                                    const shortNames = {
+                                        'Chennai Super Kings': 'CSK',
+                                        'Mumbai Indians': 'MI',
+                                        'Royal Challengers Bangalore': 'RCB',
+                                        'Kolkata Knight Riders': 'KKR',
+                                        'Delhi Capitals': 'DC',
+                                        'Punjab Kings': 'PBKS',
+                                        'Rajasthan Royals': 'RR',
+                                        'Sunrisers Hyderabad': 'SRH',
+                                        'Gujarat Titans': 'GT',
+                                        'Lucknow Super Giants': 'LSG'
+                                    };
+                                    return shortNames[value] || value;
                                 }
                             },
                             border: {
@@ -389,28 +387,46 @@ document.addEventListener("DOMContentLoaded", () => {
                             text: 'IPL Team Vote Distribution',
                             color: '#FFD700',
                             font: {
-                                size: window.innerWidth <= 480 ? 14 : 24,
+                                size: window.innerWidth <= 480 ? 16 : 24,
                                 weight: 'bold',
                                 family: 'system-ui'
                             },
                             padding: {
-                                top: window.innerWidth <= 480 ? 10 : 20,
-                                bottom: window.innerWidth <= 480 ? 10 : 30
+                                top: window.innerWidth <= 480 ? 20 : 20,
+                                bottom: window.innerWidth <= 480 ? 20 : 30
                             }
                         },
                         tooltip: {
                             enabled: true,
                             mode: 'index',
                             intersect: false,
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
                             titleFont: {
-                                size: window.innerWidth <= 480 ? 12 : 14
+                                size: window.innerWidth <= 480 ? 14 : 14
                             },
                             bodyFont: {
-                                size: window.innerWidth <= 480 ? 11 : 13
+                                size: window.innerWidth <= 480 ? 13 : 13
                             },
-                            padding: window.innerWidth <= 480 ? 8 : 12,
-                            displayColors: false
+                            padding: window.innerWidth <= 480 ? 12 : 12,
+                            displayColors: true,
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const fullNames = {
+                                        'CSK': 'Chennai Super Kings',
+                                        'MI': 'Mumbai Indians',
+                                        'RCB': 'Royal Challengers Bangalore',
+                                        'KKR': 'Kolkata Knight Riders',
+                                        'DC': 'Delhi Capitals',
+                                        'PBKS': 'Punjab Kings',
+                                        'RR': 'Rajasthan Royals',
+                                        'SRH': 'Sunrisers Hyderabad',
+                                        'GT': 'Gujarat Titans',
+                                        'LSG': 'Lucknow Super Giants'
+                                    };
+                                    const shortName = tooltipItems[0].label;
+                                    return fullNames[shortName] || shortName;
+                                }
+                            }
                         }
                     },
                     animation: {
