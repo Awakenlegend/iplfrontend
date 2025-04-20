@@ -304,7 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             bottomLeft: 0,
                             bottomRight: 0
                         },
-                        maxBarThickness: 35
+                        maxBarThickness: window.innerWidth <= 480 ? 25 : 35
                     }]
                 },
                 options: {
@@ -312,10 +312,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     maintainAspectRatio: false,
                     layout: {
                         padding: {
-                            top: 20,
-                            right: 20,
-                            bottom: 20,
-                            left: 20
+                            top: window.innerWidth <= 480 ? 20 : 30,
+                            right: window.innerWidth <= 480 ? 10 : 20,
+                            bottom: window.innerWidth <= 480 ? 10 : 20,
+                            left: window.innerWidth <= 480 ? 10 : 20
                         }
                     },
                     scales: {
@@ -330,9 +330,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                 color: '#94a3b8',
                                 font: {
                                     family: 'system-ui',
-                                    size: 12
+                                    size: window.innerWidth <= 480 ? 10 : 12,
+                                    weight: '500'
                                 },
-                                padding: 10
+                                padding: window.innerWidth <= 480 ? 5 : 10
                             },
                             border: {
                                 display: false
@@ -347,11 +348,32 @@ document.addEventListener("DOMContentLoaded", () => {
                                 color: '#94a3b8',
                                 font: {
                                     family: 'system-ui',
-                                    size: 12
+                                    size: window.innerWidth <= 480 ? 9 : 12,
+                                    weight: '500'
                                 },
-                                maxRotation: 45,
-                                minRotation: 45,
-                                padding: 10
+                                maxRotation: window.innerWidth <= 480 ? 45 : 45,
+                                minRotation: window.innerWidth <= 480 ? 45 : 45,
+                                padding: window.innerWidth <= 480 ? 5 : 10,
+                                autoSkip: false,
+                                callback: function(value) {
+                                    if (window.innerWidth <= 480) {
+                                        // Shorten team names on mobile
+                                        const shortNames = {
+                                            'Chennai Super Kings': 'CSK',
+                                            'Mumbai Indians': 'MI',
+                                            'Royal Challengers Bangalore': 'RCB',
+                                            'Kolkata Knight Riders': 'KKR',
+                                            'Delhi Capitals': 'DC',
+                                            'Punjab Kings': 'PBKS',
+                                            'Rajasthan Royals': 'RR',
+                                            'Sunrisers Hyderabad': 'SRH',
+                                            'Gujarat Titans': 'GT',
+                                            'Lucknow Super Giants': 'LSG'
+                                        };
+                                        return shortNames[value] || value;
+                                    }
+                                    return value;
+                                }
                             },
                             border: {
                                 display: false
@@ -367,18 +389,36 @@ document.addEventListener("DOMContentLoaded", () => {
                             text: 'IPL Team Vote Distribution',
                             color: '#FFD700',
                             font: {
-                                size: 24,
+                                size: window.innerWidth <= 480 ? 14 : 24,
                                 weight: 'bold',
                                 family: 'system-ui'
                             },
                             padding: {
-                                top: 20,
-                                bottom: 30
+                                top: window.innerWidth <= 480 ? 10 : 20,
+                                bottom: window.innerWidth <= 480 ? 10 : 30
                             }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleFont: {
+                                size: window.innerWidth <= 480 ? 12 : 14
+                            },
+                            bodyFont: {
+                                size: window.innerWidth <= 480 ? 11 : 13
+                            },
+                            padding: window.innerWidth <= 480 ? 8 : 12,
+                            displayColors: false
                         }
                     },
                     animation: {
                         duration: 500
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
                     }
                 }
             });
